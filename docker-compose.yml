@@ -1,0 +1,60 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:16.0
+    restart: always
+    container_name: biomassx_db
+    ports:
+      # Let's make it explicit
+      - "5432:5432"
+    env_file:
+      - .env
+    environment:
+      # From .env
+      POSTGRES_USER: ${DBUSER}
+      POSTGRES_PASSWORD: ${DBPASS}
+      POSTGRES_DB: ${DBNAME}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - ./conf/db:/docker-entrypoint-initdb.d
+      - ${FILEROOT}/biomassx/postgresql:/var/lib/postgresql/data
+    networks:
+      - default
+
+
+  api:
+    image: biomassx-api
+    restart: always
+    container_name: biomassx_api
+    environment:
+      DBHOST: biomassx_db
+      DBNAME: ${DBNAME}
+      DBUSER: ${DBUSER}
+      DBPASS: ${DBPASS}
+      DBPARAM: ${DBPARAM}
+    build:
+      context: .
+      dockerfile: api.Dockerfile
+    ports:
+      # Let's make it explicit
+      - "12345:12345"
+    expose:
+      - 12345
+    volumes:
+      - /tmp/logs:/tmp/logs
+    networks:
+      - default
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: curl --fail http://localhost:8080/healthcheck || exit 1
+      interval: 60s
+      retries: 5
+      start_period: 20s
+      timeout: 1s

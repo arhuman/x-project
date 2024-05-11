@@ -1,0 +1,134 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "An API for BiomassX",
+        "title": "BiomassX API",
+        "contact": {
+            "name": "BiomassX team",
+            "email": "dev@biomassx.com"
+        },
+        "version": "1.0"
+    },
+    "host": "localhost:12345",
+    "basePath": "/v1",
+    "paths": {
+        "/v1/members/": {
+            "post": {
+                "tags": [
+                    "member"
+                ],
+                "summary": "Create a new member",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/models.Member"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/members/{id}": {
+            "get": {
+                "tags": [
+                    "member"
+                ],
+                "summary": "Get a member by ID",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Member"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "member"
+                ],
+                "summary": "Update a member by ID",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Member"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "member"
+                ],
+                "summary": "Delete a member by ID",
+                "responses": {
+                    "204": {
+                        "description": "No Content",
+                        "schema": {
+                            "$ref": "#/definitions/models.Member"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "models.Member": {
+            "type": "object",
+            "properties": {
+                "address1": {
+                    "type": "string"
+                },
+                "address2": {
+                    "type": "string"
+                },
+                "confirmation_time": {
+                    "type": "string"
+                },
+                "country_id": {
+                    "type": "integer"
+                },
+                "district_id": {
+                    "type": "integer"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "notes": {
+                    "type": "string"
+                },
+                "organization": {
+                    "type": "string"
+                },
+                "passwd": {
+                    "type": "string"
+                },
+                "phone": {
+                    "type": "string"
+                },
+                "postal_code": {
+                    "type": "string"
+                },
+                "province_id": {
+                    "type": "integer"
+                },
+                "registration_time": {
+                    "type": "string"
+                },
+                "subdistrict_id": {
+                    "type": "integer"
+                },
+                "update_time": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}
